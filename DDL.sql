@@ -4,53 +4,41 @@ GO
 --creacion de la tabla Bus
 create table transporte.Bus(
     ID int IDENTITY(1,1) primary key,
-    placa varchar(8) not null unique,
-    modelo varchar(50),
+    placa nvarchar(8) not null unique,
+    modelo nvarchar(50),
     capacidad int
 )
 
 --Creacion de la tabla ruta
 create table transporte.Ruta(
     ID int IDENTITY(1,1) primary key,
-    origen varchar(100) not NULL,
-    destino varchar(100) NOT NULL,
+    origen nvarchar(100) not NULL,
+    destino nvarchar(100) NOT NULL,
 )
 
 --creacion de la tabla conductor
 create table transporte.Conductor(
     ID INT PRIMARY KEY,
     licencia INT NOT NULL,
-    nombre VARCHAR(100)
+    nombre NVARCHAR(100)
 )
 
---creacion de la tabla Bus_Ruta
-create table transporte.Bus_Ruta(
-    ID_bus int not null,
-    ID_ruta int not null,
+---Creacion de la tabla recorrido
+create table transporte.recorrido(
+ID INT IDENTITY(1,1) PRIMARY KEY,
+ID_Bus INT not null,
+ID_Ruta INT not null,
+ID_Conductor INT not null,
+fecha_inicio DATE not null,
+fecha_fin DATE not null
 )
 
--- se agregan las llaves primarias y foraneas a la tabla Bus_Ruta, con alter table
-alter table transporte.Bus_Ruta
-add CONSTRAINT PK_Bus_Ruta PRIMARY KEY (ID_bus, id_ruta);
-    
-alter table transporte.Bus_Ruta
-add CONSTRAINT FK_Bus FOREIGN KEY (ID_bus) REFERENCES transporte.Bus(ID)
+---llaves foraneas de la tabla recorrido con alter table
+alter table transporte.recorrido
+add CONSTRAINT FK_Bus FOREIGN KEY (ID_Bus) REFERENCES transporte.Bus(ID);
 
-alter table transporte.Bus_Ruta
-add CONSTRAINT FK_Ruta FOREIGN KEY (ID_ruta) REFERENCES transporte.Ruta(ID)
+alter table transporte.recorrido
+add CONSTRAINT FK_Ruta FOREIGN KEY (ID_Ruta) REFERENCES transporte.Ruta(ID);
 
---creacion de la tabla Bus_Conductor
-create table transporte.Bus_Conductor(
-    ID_conductor int not null,
-    ID_bus int not null,   
-)
-
---se agregan las llaves primarias y foraneas a la tabla Bus_Conductor, con alter table
-alter table transporte.Bus_Conductor
-add CONSTRAINT PK_Bus_Conductor PRIMARY KEY (ID_conductor, ID_bus);
-
-alter table transporte.Bus_Conductor
-add CONSTRAINT FK_Conductor FOREIGN KEY (ID_conductor) REFERENCES transporte.Conductor(ID);
-
-alter table transporte.Bus_Conductor
-ADD  CONSTRAINT FK_Bus FOREIGN KEY (ID_Bus) REFERENCES transporte.Bus(ID)
+alter table transporte.recorrido
+add CONSTRAINT FK_Conductor FOREIGN KEY (ID_Conductor) REFERENCES transporte.Conductor(ID);

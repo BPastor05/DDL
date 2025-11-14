@@ -27,17 +27,30 @@ create table transporte.Conductor(
 create table transporte.Bus_Ruta(
     ID_bus int not null,
     ID_ruta int not null,
-    CONSTRAINT PK_Bus_Ruta PRIMARY KEY (ID_bus, id_ruta),
-    CONSTRAINT FK_Bus FOREIGN KEY (ID_bus) REFERENCES transporte.Bus(ID),
-    CONSTRAINT FK_Ruta FOREIGN KEY (ID_ruta) REFERENCES transporte.Ruta(ID)
 )
+
+-- se agregan las llaves primarias y foraneas a la tabla Bus_Ruta, con alter table
+alter table transporte.Bus_Ruta
+add CONSTRAINT PK_Bus_Ruta PRIMARY KEY (ID_bus, id_ruta);
+    
+alter table transporte.Bus_Ruta
+add CONSTRAINT FK_Bus FOREIGN KEY (ID_bus) REFERENCES transporte.Bus(ID)
+
+alter table transporte.Bus_Ruta
+add CONSTRAINT FK_Ruta FOREIGN KEY (ID_ruta) REFERENCES transporte.Ruta(ID)
 
 --creacion de la tabla Bus_Conductor
 create table transporte.Bus_Conductor(
     ID_conductor int not null,
-    ID_bus int not null,
-    CONSTRAINT PK_Bus_Conductor PRIMARY KEY (ID_conductor, ID_bus),
-    CONSTRAINT FK_Conductor FOREIGN KEY (ID_conductor) REFERENCES transporte.Conductor(ID),
-    CONSTRAINT FK_Bus FOREIGN KEY (ID_Bus) REFERENCES transporte.Bus(ID)   
+    ID_bus int not null,   
 )
 
+--se agregan las llaves primarias y foraneas a la tabla Bus_Conductor, con alter table
+alter table transporte.Bus_Conductor
+add CONSTRAINT PK_Bus_Conductor PRIMARY KEY (ID_conductor, ID_bus);
+
+alter table transporte.Bus_Conductor
+add CONSTRAINT FK_Conductor FOREIGN KEY (ID_conductor) REFERENCES transporte.Conductor(ID);
+
+alter table transporte.Bus_Conductor
+ADD  CONSTRAINT FK_Bus FOREIGN KEY (ID_Bus) REFERENCES transporte.Bus(ID)

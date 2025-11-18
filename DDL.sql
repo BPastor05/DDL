@@ -6,7 +6,7 @@ create table transporte.Bus(
     ID int IDENTITY(1,1) primary key,
     placa nvarchar(8) not null unique,
     modelo nvarchar(50),
-    capacidad int
+    capacidad int not null
 )
 
 --Creacion de la tabla ruta
@@ -23,6 +23,10 @@ create table transporte.Conductor(
     nombre NVARCHAR(100)
 )
 
+---Cambiar licencia a unico 
+ALTER TABLE transporte.conductor
+ALTER COLUMN licencia INT NOT NULL 
+
 ---Creacion de la tabla recorrido
 create table transporte.recorrido(
 ID INT IDENTITY(1,1) PRIMARY KEY,
@@ -32,6 +36,12 @@ ID_Conductor INT not null,
 fecha_inicio DATE not null,
 fecha_fin DATE not null
 )
+
+ALTER TABLE transporte.recorrido
+alter COLUMN fecha_fin DATETIME NULL
+
+ALTER TABLE transporte.recorrido
+alter COLUMN fecha_inicio DATETIME NOT NULL
 
 ---llaves foraneas de la tabla recorrido con alter table
 alter table transporte.recorrido
